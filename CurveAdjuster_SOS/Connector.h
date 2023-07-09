@@ -23,7 +23,8 @@ public:
     Connector(pointType _start, pointType _end);
     Connector(pointType _start, pointType _control, pointType _end);
     Connector(const Connector&);
-    
+
+
     void paint(juce::Graphics& g) override;
     
     void AdjustStartPoint(pointType newStart);

@@ -10,7 +10,7 @@
 
 #pragma once
 #include "ICurveAdjusterEditor.h"
-#include "../PluginProcessor.h"
+//#include "../PluginProcessor.h"
 #include "CurveAdjusterProcessor.h"
 #include "CurveAdjusterPointTypes.h"
 
