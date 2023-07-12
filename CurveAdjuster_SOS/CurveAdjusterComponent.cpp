@@ -70,8 +70,8 @@ void CurveAdjusterComponent::paint (juce::Graphics& g)
 }
 void CurveAdjusterComponent::resized()
 {
-    curveAdjusterEditor.setBounds(0, 0, curveAdjusterEditor.GetWidth(), curveAdjusterEditor.GetHeight());
-    slider.setBounds(5, curveAdjusterEditor.getBottom(), curveAdjusterEditor.GetWidth() + 10, (getHeight() - curveAdjusterEditor.GetHeight()) / 2);
+    curveAdjusterEditor.setBounds(0, 0, static_cast<int>(curveAdjusterEditor.GetWidth()), static_cast<int>(curveAdjusterEditor.GetHeight()));
+    slider.setBounds(5, curveAdjusterEditor.getBottom(), static_cast<int>(curveAdjusterEditor.GetWidth()) + 10, static_cast<int>(GetHeight() - curveAdjusterEditor.GetHeight() / 2.0f));
 }
 
 void CurveAdjusterComponent::sliderValueChanged(juce::Slider*)
@@ -80,7 +80,7 @@ void CurveAdjusterComponent::sliderValueChanged(juce::Slider*)
     curveAdjusterEditor.SetParamValue(normalizedSliderValue);
 }
 
-float CurveAdjusterComponent::GetWidth()
+[[maybe_unused]] float CurveAdjusterComponent::GetWidth()
 {
     return width;
 }

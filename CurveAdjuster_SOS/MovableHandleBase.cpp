@@ -22,9 +22,8 @@ namespace CurveAdjuster
     }
 
     MovableHandleBase::MovableHandleBase(float diameter, pointType p)
-        : size(diameter), halfSize(diameter / 2.0f)
+        : size(diameter), halfSize(diameter / 2.0f), pos(OffsetPointForOrigin(p))
     {
-        pos = OffsetPointForOrigin(p);
     }
 
     void MovableHandleBase::paint(juce::Graphics& g)
@@ -54,7 +53,7 @@ namespace CurveAdjuster
 
     pointType MovableHandleBase::GetPos()
     {
-        return GetCenterFromOrgin();
+        return GetCenterFromOrigin();
     }
 
 
@@ -88,7 +87,7 @@ namespace CurveAdjuster
     void MovableHandleBase::ForceMouseWithinTrue()
     {
         mouseIsWithin = true;
-        //don't repaint because this is currently only used when deleting a random handle within multi select
+        //no need to repaint because this is currently only used when deleting a random handle within multi select
     }
 
 
@@ -125,7 +124,7 @@ namespace CurveAdjuster
         return { p.x - halfSize, p.y - halfSize };
     }
 
-    pointType MovableHandleBase::GetCenterFromOrgin()
+    pointType MovableHandleBase::GetCenterFromOrigin()
     {
         return { pos.x + halfSize, pos.y + halfSize };
     }

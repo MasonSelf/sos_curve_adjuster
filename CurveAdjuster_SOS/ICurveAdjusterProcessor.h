@@ -22,7 +22,7 @@ namespace CurveAdjuster
         virtual ~ICurveAdjusterProcessor() = default;
         
 
-        virtual int GetNumConnectors() = 0;
+        virtual size_t GetNumConnectors() = 0;
 
         virtual void SaveState(juce::AudioProcessorValueTreeState& stateToAppendTo) = 0;
         virtual void LoadAndRemoveStateFromAPTVS(juce::ValueTree& apvtsTree) = 0;

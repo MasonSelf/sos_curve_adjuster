@@ -39,7 +39,7 @@ namespace CurveAdjuster
     private:
         virtual void DetermineMouseEnter(const pointType mousePos) = 0;
         virtual pointType OffsetPointForOrigin(pointType p) = 0;
-        virtual pointType GetCenterFromOrgin() = 0;
+        virtual pointType GetCenterFromOrigin() = 0;
 
     };
 

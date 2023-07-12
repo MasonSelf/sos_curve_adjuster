@@ -14,11 +14,11 @@ struct UndoManager
 {
     //TODO: add initial state upon construction
     //Presently the first state stored is the first CHANGE and the initial state can not be undo'd to
-    UndoManager(int numStates)
+    explicit UndoManager(size_t numStates)
     : indexMax(numStates)
     {
         states.reserve(numStates);
-        for (int i = 0; i < indexMax; ++i)
+        for (size_t i = 0; i < indexMax; ++i)
         {
             states.emplace_back(T());
         }
@@ -75,8 +75,8 @@ struct UndoManager
         }
     }
     
-    const int indexMax;
+    const size_t indexMax;
     std::vector<T> states;
-    int index{0};
+    size_t index{0};
     bool firstFlag{true};
 };

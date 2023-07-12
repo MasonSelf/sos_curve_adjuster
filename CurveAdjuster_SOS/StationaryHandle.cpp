@@ -13,26 +13,26 @@ namespace CurveAdjuster
 {
     
     StationaryHandle::StationaryHandle(float diameter, pointType _pos)
-    : size(diameter), halfSize(diameter / 2.0f), pos(_pos)
+    : size(diameter), halfSize(diameter / 2.0f), pos(OffsetPointForOrigin(_pos))
     {
     }
     void StationaryHandle::paint(juce::Graphics&)
     {
+        //we don't need to see this.
     }
-    void StationaryHandle::HandlePossibleMouseOver(const pointType mousePos)
+    void StationaryHandle::HandlePossibleMouseOver(const pointType)
     {
     }
     bool StationaryHandle::GetIsMouseWithin()
     {
-        return mouseIsWithin;
+        return false;
     }
     pointType StationaryHandle::GetPos()
     {
-        return GetCenterFromOrgin();
+        return GetCenterFromOrigin();
     }
     void StationaryHandle::SetPos(pointType)
     {
-        // no need to move after initilazation!
     }
     float StationaryHandle::GetSize()
     {
@@ -48,9 +48,7 @@ namespace CurveAdjuster
     }
     void StationaryHandle::ForceMouseWithinFalse()
     {
-        mouseIsWithin = false;
     }
-    
     void StationaryHandle::ForceMouseWithinTrue()
     {
     }
@@ -63,28 +61,16 @@ namespace CurveAdjuster
         return false;
     }
     
-    void StationaryHandle::DetermineMouseEnter(const pointType mousePos)
+    void StationaryHandle::DetermineMouseEnter(const pointType)
     {
-        auto xMin = pos.x - mouseCushion;
-        auto xMax = pos.x + size + mouseCushion;
-        auto yMin = pos.y - mouseCushion;
-        auto yMax = pos.y + size + mouseCushion;
-        if (mousePos.x >= xMin && mousePos.x <= xMax)
-        {
-            if (mousePos.y >= yMin && mousePos.y <= yMax)
-            {
-                mouseIsWithin = true;
-                return;
-            }
-        }
-        mouseIsWithin = false;
     }
+
     pointType StationaryHandle::OffsetPointForOrigin(pointType p)
     {
         //adjust mouse point to origin of handle
         return { p.x - halfSize, p.y - halfSize };
     }
-    pointType StationaryHandle::GetCenterFromOrgin()
+    pointType StationaryHandle::GetCenterFromOrigin()
     {
         return { pos.x + halfSize, pos.y + halfSize };
     }

@@ -42,13 +42,12 @@ public:
                            const juce::String& _displayName,
                            const juce::String& minOutputName,
                            const juce::String& maxOutputName);
-    ~CurveAdjusterComponent() = default;
     void paint (juce::Graphics&) override;
     void resized() override;
 
     void sliderValueChanged(juce::Slider*) override;
-    
-    float GetWidth();
+
+    [[maybe_unused]] float GetWidth();
     float GetHeight();
     
     CurveAdjusterEditor curveAdjusterEditor;

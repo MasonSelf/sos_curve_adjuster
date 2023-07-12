@@ -26,7 +26,7 @@ public:
     }
     float GetNextValue(float possibleNewTarget)
     {
-        if (possibleNewTarget != smoothedVal.getTargetValue())
+        if (juce::approximatelyEqual(possibleNewTarget, smoothedVal.getTargetValue()))
         {
             smoothedVal.setTargetValue(possibleNewTarget);
         }

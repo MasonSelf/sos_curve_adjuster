@@ -42,7 +42,7 @@ namespace CurveAdjuster
     private:
         void DetermineMouseEnter(const pointType mousePos) override;
         pointType OffsetPointForOrigin(pointType p) override;
-        pointType GetCenterFromOrgin() override;
+        pointType GetCenterFromOrigin() override;
 
         bool isMultiSelected{false};
         bool mouseIsWithin{ false };

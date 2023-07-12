@@ -25,9 +25,9 @@ namespace CurveAdjuster
 
         CurveAdjusterProcessor(std::string n, float initVal, double smoothingIncrement, std::vector<ConnectorPoints> _connnectorPoints);
         CurveAdjusterProcessor(std::string n, float initVal, double smoothingIncrement); //default linear ramp up
-        ~CurveAdjusterProcessor();
+        ~CurveAdjusterProcessor() override;
 
-        int GetNumConnectors() override;
+        size_t GetNumConnectors() override;
 
         void SaveState(juce::AudioProcessorValueTreeState& stateToAppendTo) override;
         void LoadAndRemoveStateFromAPTVS(juce::ValueTree& apvtsTree) override;

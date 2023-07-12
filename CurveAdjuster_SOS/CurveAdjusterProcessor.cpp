@@ -43,17 +43,17 @@ CurveAdjusterProcessor::~CurveAdjusterProcessor()
 {
 }
 
-int CurveAdjusterProcessor::GetNumConnectors()
+size_t CurveAdjusterProcessor::GetNumConnectors()
 {
-    for (int i = 0; i < data.maxConnectors.load(); ++i)
+    for (size_t i = 0; i < data.maxConnectors.load(); ++i)
     {
         if (data[i].endX == 1.0f)
         {
-            return i + 1;
+            return ++i;
         }
     }
     jassert(false); //there has to be a connector at the end!
-    return -1;
+    return 0; //TODO: make return type optional?
 }
 
 
@@ -71,7 +71,7 @@ void CurveAdjusterProcessor::SaveState(juce::AudioProcessorValueTreeState& state
     };
     
     //iterate through any handles and add to the temp tree
-    for (int i = 0; i < GetNumConnectors(); ++i)
+    for (size_t i = 0; i < GetNumConnectors(); ++i)
     {
         //create tree for the point
         juce::Identifier connectorName = juce::String("connector" + std::to_string(i));
@@ -129,7 +129,7 @@ float CurveAdjusterProcessor::GetTranslatedOutput(float in_X)
     
     //find points at which in_X lies between
     auto numConnectors = GetNumConnectors();
-    for (int i = 0; i < numConnectors; ++i)
+    for (size_t i = 0; i < numConnectors; ++i)
     {
         if (data[i].startX < in_X && data[i].endX > in_X)
         {
@@ -137,11 +137,11 @@ float CurveAdjusterProcessor::GetTranslatedOutput(float in_X)
         }
         
         //simplified path if in_X equals start or end of segment
-        if (data[i].startX == in_X)
+        if (juce::approximatelyEqual(data[i].startX.load(), in_X))
         {
             return data[i].startY;
         }
-        if (data[i].endX == in_X)
+        if (juce::approximatelyEqual(data[i].endX.load(), in_X))
         {
             return data[i].endY;
         }
@@ -159,7 +159,7 @@ void CurveAdjusterProcessor::SetState(juce::ValueTree& curveAdjusterTree)
         return;
     }
 
-    for (int i = 0; i < setOfConnectorsChild.getNumChildren(); ++i)
+    for (auto i = 0; i < setOfConnectorsChild.getNumChildren(); ++i)
     {
         auto connectorChild = setOfConnectorsChild.getChild(i);
         data[i].startX.store((float)connectorChild.getChildWithName("startX").getProperty(value_string_as_ID, -2.0));

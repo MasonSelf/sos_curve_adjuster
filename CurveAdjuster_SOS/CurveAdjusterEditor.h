@@ -33,7 +33,7 @@ class CurveAdjusterEditor : public ICurveAdjusterEditor, public juce::MultiTimer
 {
 public:
     CurveAdjusterEditor(float _width, float _height, CurveAdjusterProcessor& p, bool _minIsAdjustable, bool _maxIsAdjustable, bool receivesModulation);
-    ~CurveAdjusterEditor();
+    ~CurveAdjusterEditor() override;
     
     void resized() override;
     void paint(juce::Graphics& g) override;

@@ -12,7 +12,7 @@
 #include "IAdjusterHandle.h"
 namespace CurveAdjuster
 {
-    /* This handle is not repositonable. Primarilly intended for start
+    /* This handle is not reposition-able! Primarily intended for start
     or end values in a curve adjuster
     */
     class StationaryHandle : public IAdjustmentHandle
@@ -35,12 +35,11 @@ namespace CurveAdjuster
     private:
         void DetermineMouseEnter(const pointType mousePos) override;
         pointType OffsetPointForOrigin(pointType p) override;
-        pointType GetCenterFromOrgin() override;
-        
-        bool mouseIsWithin{ false };
+        pointType GetCenterFromOrigin() override;
+
         const float size{ 10.0f };
         const float halfSize{ 5.0f };
-        const float mouseCushion{ 5.0f };
-        pointType pos{ 0.0f, 0.0f };
+        //const float mouseCushion{ 5.0f };
+        const pointType pos{ 0.0f, 0.0f };
     };
 }

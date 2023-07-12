@@ -17,6 +17,7 @@ namespace CurveAdjuster
     {
         pointType start, control, end;
     };
+
     struct AtomicConnector
     {
         std::atomic<float> startX {-1.0f};
@@ -61,9 +62,9 @@ namespace CurveAdjuster
         AtomicConnector connector28;
         AtomicConnector connector29;
         
-        const std::atomic<int> maxConnectors{30};
-        
-        AtomicConnector& operator[](int index)
+        const std::atomic<size_t> maxConnectors{30};
+
+        AtomicConnector& operator[](size_t index)
         {
             jassert(index < maxConnectors.load()); //index is out of range!
             
@@ -130,6 +131,11 @@ namespace CurveAdjuster
             }
             //must be last connector. this is asserted at beginning of function
             return connector29;
+        }
+
+        AtomicConnector& operator[](int index)
+        {
+            return operator[](static_cast<size_t>(index));
         }
     };
 }

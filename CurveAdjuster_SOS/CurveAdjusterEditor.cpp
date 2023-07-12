@@ -90,8 +90,8 @@ void CurveAdjusterEditor::paint(juce::Graphics& g)
         
         auto x = curveAdjusterProcessor.inputX.get() * (width - 1);
         auto yIntersect = GetY_AtX(x);
-        g.drawVerticalLine(static_cast<float>(x), yIntersect, height);
-        g.drawHorizontalLine(yIntersect, x, width);
+        g.drawVerticalLine(static_cast<int>(x), yIntersect, height);
+        g.drawHorizontalLine(static_cast<int>(yIntersect), x, width);
     }
 
 }
@@ -108,7 +108,7 @@ void CurveAdjusterEditor::InitHandles()
     {
         connectors.clear();
     }
-    for (int i = 0; i < curveAdjusterProcessor.data.maxConnectors.load(); ++i)
+    for (size_t i = 0; i < curveAdjusterProcessor.data.maxConnectors.load(); ++i)
     {
         pointType start = GetCoordinateFromPercentage({curveAdjusterProcessor.data[i].startX.load(), curveAdjusterProcessor.data[i].startY.load()});
         pointType control = GetCoordinateFromPercentage({curveAdjusterProcessor.data[i].controlX.load(), curveAdjusterProcessor.data[i].controlY.load()});
@@ -168,7 +168,7 @@ void CurveAdjusterEditor::mouseDown(const juce::MouseEvent& e)
     }
 }
 
-void CurveAdjusterEditor::mouseUp(const juce::MouseEvent& e)
+void CurveAdjusterEditor::mouseUp(const juce::MouseEvent&)
 {
     if (multiSelectManager.moveInProgress)
     {
@@ -198,7 +198,7 @@ void CurveAdjusterEditor::mouseMove(const juce::MouseEvent& e)
     }
 }
 
-void CurveAdjusterEditor::mouseExit(const juce::MouseEvent& e)
+void CurveAdjusterEditor::mouseExit(const juce::MouseEvent&)
 {
     for (auto it = handles.begin(); it != handles.end(); ++it)
     {
@@ -416,7 +416,7 @@ void CurveAdjusterEditor::valueChanged(juce::Value& value)
         }
         
         //clear rest of data set
-        auto remainderIndex = static_cast<int>(connectors.size());
+        auto remainderIndex = static_cast<size_t>(connectors.size());
         while (remainderIndex < curveAdjusterProcessor.data.maxConnectors.load())
         {
             curveAdjusterProcessor.data[remainderIndex].startX.store(-1.0f);
@@ -498,7 +498,7 @@ void CurveAdjusterEditor::timerCallback(int timerID)
     }
     if (timerID == timerIDs::drawTracesUnderModulation)
     {
-        if (curveAdjusterProcessor.inputX.get() != cachedValue)
+        if (juce::approximatelyEqual(curveAdjusterProcessor.inputX.get(), cachedValue))
         {
             cachedValue = curveAdjusterProcessor.inputX.get();
             if (! isTimerRunning(timerIDs::drawTracesDuringChange))
@@ -516,6 +516,10 @@ void CurveAdjusterEditor::timerCallback(int timerID)
 
 bool CurveAdjusterEditor::keyStateChanged(bool isKeyDown)
 {
+    if (!isKeyDown)
+    {
+        return true;
+    }
     if (juce::KeyPress::isKeyCurrentlyDown(juce::KeyPress::spaceKey)
         || juce::KeyPress::isKeyCurrentlyDown(juce::KeyPress::returnKey)
         || juce::KeyPress::isKeyCurrentlyDown('x')
@@ -714,10 +718,10 @@ bool CurveAdjusterEditor::AddHandle(pointType p)
     
     if (connectors.size() >= curveAdjusterProcessor.data.maxConnectors.load())
     {
-        return false; //too many points!
+        return false; //can't add any more points, so return false
     }
-    
-    if (p.x == 0)
+
+    if (juce::approximatelyEqual(p.x, 0.0f))
     {
         if (minIsAdjustable)
         {
@@ -730,7 +734,7 @@ bool CurveAdjusterEditor::AddHandle(pointType p)
         SetupNewHandleComponent(handles.begin());
         return true;
     }
-    else if (p.x == GetWidth())
+    else if (juce::approximatelyEqual(p.x, GetWidth()))
     {
         if (maxIsAdjustable)
         {
@@ -769,7 +773,7 @@ bool CurveAdjusterEditor::AddHandle(pointType p)
             }
             
             //special case if new x is equal to existing handle
-            if (p.x == (*it)->GetPos().x)
+            if (juce::approximatelyEqual(p.x, (*it)->GetPos().x))
             {
                //consider attempting to offset by 1 for a better user experience if this happens often
                 return false;
@@ -1350,7 +1354,7 @@ void CurveAdjusterEditor::HandleRightClickOptionsNoMultiSelect()
                 thisY += yIncr;
                 thisX += 1.0f;
                 HandleMouseDoubleClickWithPostion({thisX, thisY});
-                if (thisY == height)
+                if (juce::approximatelyEqual(thisY, height))
                 {
                     lastFlag = true;
                 }

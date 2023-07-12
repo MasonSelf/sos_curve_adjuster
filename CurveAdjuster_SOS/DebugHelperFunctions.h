@@ -12,7 +12,7 @@
 #include <juce_graphics/juce_graphics.h>
 namespace DebugHelp
 {
-    static void PrintVectorOfPoints(const std::vector<juce::Point<float>>& c)
+    [[maybe_unused]] static void PrintVectorOfPoints(const std::vector<juce::Point<float>>& c)
     {
         std::string output;
         for (auto p : c)
@@ -22,18 +22,18 @@ namespace DebugHelp
         DBG(output);
     }
 
-    static void PrintPoint(juce::Point<float>& p)
+    [[maybe_unused]] static void PrintPoint(juce::Point<float>& p)
     {
         std::string output = std::to_string(p.x) + ", " + std::to_string(p.y);
         DBG(output);
     }
 
-    static juce::String GetPointAsString(juce::Point<float>& p)
+    [[maybe_unused]] static juce::String GetPointAsString(juce::Point<float>& p)
     {
         return std::to_string(p.x) + ", " + std::to_string(p.y);
     }
 
-    static juce::String PrintBool(bool b)
+    [[maybe_unused]] static juce::String PrintBool(bool b)
     {
         return b ? "true" : "false";
     }

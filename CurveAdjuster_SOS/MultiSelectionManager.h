@@ -19,7 +19,7 @@ class MultiSelectManager : public MouseIgnoringComponent , public juce::Timer
 {
 public:
     MultiSelectManager(float _handleSize, float maxX, float maxY);
-    ~MultiSelectManager();
+    ~MultiSelectManager() override;
     void paint(juce::Graphics& g) override;
     void timerCallback() override;
     bool IsPointWithinMultiSection(const pointType& p);
