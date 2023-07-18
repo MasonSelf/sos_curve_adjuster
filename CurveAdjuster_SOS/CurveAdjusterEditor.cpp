@@ -498,7 +498,7 @@ void CurveAdjusterEditor::timerCallback(int timerID)
     }
     if (timerID == timerIDs::drawTracesUnderModulation)
     {
-        if (juce::approximatelyEqual(curveAdjusterProcessor.inputX.get(), cachedValue))
+        if (! juce::approximatelyEqual(curveAdjusterProcessor.inputX.get(), cachedValue))
         {
             cachedValue = curveAdjusterProcessor.inputX.get();
             if (! isTimerRunning(timerIDs::drawTracesDuringChange))

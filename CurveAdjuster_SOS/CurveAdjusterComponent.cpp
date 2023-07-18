@@ -59,19 +59,28 @@ void CurveAdjusterComponent::paint (juce::Graphics& g)
 {
     if (shouldDisplayNameAndOutputRange)
     {
-        g.setColour(juce::Colours::white);
+        g.setColour(juce::Colours::black);
         g.setOpacity(0.8f);
         g.setFont(20.0f);
-        g.drawFittedText(displayName, juce::Rectangle<int>({0, static_cast<int>(curveAdjusterEditor.GetHeight())}, {static_cast<int>(curveAdjusterEditor.GetWidth()), getHeight()} ), juce::Justification::centred, 1);
+        g.drawFittedText(displayName, juce::Rectangle<int>({0, getHeight() - 20}, {static_cast<int>(curveAdjusterEditor.GetWidth()), getHeight()} ), juce::Justification::centred, 1);
         g.setFont(10.0f);
-        g.drawFittedText(maxOutput, juce::Rectangle<int>({getWidth() - 25, 0}, {getWidth(), 12}), juce::Justification::centred, 1);
-        g.drawFittedText(minOutput, juce::Rectangle<int>({getWidth() - 25, static_cast<int>(curveAdjusterEditor.GetHeight()) - 12}, {getWidth(), static_cast<int>(curveAdjusterEditor.GetHeight())}), juce::Justification::centred, 1);
+        g.drawFittedText(maxOutput,
+                         juce::Rectangle<int>(
+                            {curveAdjusterEditor.getWidth(), 0},
+                            {curveAdjusterEditor.getWidth() + 25, 12}),
+                         juce::Justification::centred, 1);
+        g.drawFittedText(minOutput,
+                         juce::Rectangle<int>(
+                                {curveAdjusterEditor.getWidth(), static_cast<int>(curveAdjusterEditor.GetHeight()) - 12},
+                                {curveAdjusterEditor.getWidth() + 25, static_cast<int>(curveAdjusterEditor.GetHeight())}),
+                        juce::Justification::centred, 1);
     }
 }
 void CurveAdjusterComponent::resized()
 {
     curveAdjusterEditor.setBounds(0, 0, static_cast<int>(curveAdjusterEditor.GetWidth()), static_cast<int>(curveAdjusterEditor.GetHeight()));
-    slider.setBounds(5, curveAdjusterEditor.getBottom(), static_cast<int>(curveAdjusterEditor.GetWidth()) + 10, static_cast<int>(GetHeight() - curveAdjusterEditor.GetHeight() / 2.0f));
+    auto sliderHeight = 16;
+    slider.setBounds(0, curveAdjusterEditor.getBottom(), curveAdjusterEditor.getWidth(), sliderHeight);
 }
 
 void CurveAdjusterComponent::sliderValueChanged(juce::Slider*)
@@ -80,7 +89,7 @@ void CurveAdjusterComponent::sliderValueChanged(juce::Slider*)
     curveAdjusterEditor.SetParamValue(normalizedSliderValue);
 }
 
-[[maybe_unused]] float CurveAdjusterComponent::GetWidth()
+float CurveAdjusterComponent::GetWidth()
 {
     return width;
 }

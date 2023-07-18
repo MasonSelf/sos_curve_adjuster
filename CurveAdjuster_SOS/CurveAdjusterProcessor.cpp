@@ -124,6 +124,8 @@ const juce::Identifier& CurveAdjusterProcessor::GetName() const
 
 float CurveAdjusterProcessor::GetTranslatedOutput(float in_X)
 {
+    inputX.set(in_X); //for drawing traces
+
     //jassert(in_X >= 0.0f); //negative input is bad input!
     if (in_X <= 0.0f) in_X = 0.0f;
     

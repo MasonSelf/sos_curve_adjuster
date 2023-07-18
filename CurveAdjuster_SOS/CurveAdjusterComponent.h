@@ -47,7 +47,7 @@ public:
 
     void sliderValueChanged(juce::Slider*) override;
 
-    [[maybe_unused]] float GetWidth();
+    float GetWidth();
     float GetHeight();
     
     CurveAdjusterEditor curveAdjusterEditor;
