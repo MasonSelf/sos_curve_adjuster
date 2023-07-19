@@ -13,6 +13,8 @@
 CurveAdjusterComponent::CurveAdjusterComponent(int paramIndex,
                                                const juce::String& paramName,
                                                bool shouldDisplaySlider,
+                                               bool minIsAdjustable,
+                                               bool maxIsAdjustable,
                                                float componentWidth,
                                                float componentHeight,
                                                float adjusterWidth,
@@ -20,7 +22,7 @@ CurveAdjusterComponent::CurveAdjusterComponent(int paramIndex,
                                                IAudioProcessor& p,
                                                CurveAdjusterProcessor& cP,
                                                bool receivesModulation)
-: curveAdjusterEditor(adjusterWidth, adjusterHeight, cP, true, true, receivesModulation),
+: curveAdjusterEditor(adjusterWidth, adjusterHeight, cP, minIsAdjustable, maxIsAdjustable, receivesModulation),
   slider(p, paramName, paramIndex),
 width(componentWidth),
 height(componentHeight)
@@ -37,6 +39,8 @@ height(componentHeight)
 CurveAdjusterComponent::CurveAdjusterComponent(int paramIndex,
                                                const juce::String& paramName,
                                                bool shouldDisplaySlider,
+                                               bool minIsAdjustable,
+                                               bool maxIsAdjustable,
                                                float componentWidth,
                                                float componentHeight,
                                                float adjusterWidth,
@@ -47,7 +51,7 @@ CurveAdjusterComponent::CurveAdjusterComponent(int paramIndex,
                                                const juce::String& _displayName,
                                                const juce::String& minOutputName,
                                                const juce::String& maxOutputName)
-: CurveAdjusterComponent(paramIndex, paramName,shouldDisplaySlider,componentWidth,componentHeight,adjusterWidth,adjusterHeight, p, cP, receivesModulation)
+: CurveAdjusterComponent(paramIndex, paramName,shouldDisplaySlider, minIsAdjustable, maxIsAdjustable, componentWidth,componentHeight,adjusterWidth,adjusterHeight, p, cP, receivesModulation)
 {
     displayName = _displayName;
     minOutput = minOutputName;

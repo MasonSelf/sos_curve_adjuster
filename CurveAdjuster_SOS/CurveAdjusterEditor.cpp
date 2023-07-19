@@ -880,20 +880,16 @@ pointType CurveAdjusterEditor::Move2DHandle(const pointType& newPos, handleColle
 {
     auto p = newPos;
     
-    if (p.y < 0.0f)
-    {
-        p.y = 0.0f;
-    }
-    
     if (! hasAlreadyBeenRestricted)
     {
         p = RestrictPosition2D(newPos, it);
     }
-    
+
     if (p.y < 0.0f)
     {
         p.y = 0.0f;
     }
+
     auto connectorsIt = connectors.begin();
     for (int i = 0; i < indexForConnector; ++i)
     {
@@ -946,11 +942,11 @@ juce::Point<float> CurveAdjusterEditor::RestrictPosition2D(pointType p, const ha
 
         if (p.y < lowerYLimit)
         {
-            p.y = lowerYLimit + 1;
+            p.y = lowerYLimit;
         }
         else if (p.y > upperYLimit)
         {
-            p.y = upperYLimit - 1;
+            p.y = upperYLimit;
         }
     }
      //limit x
