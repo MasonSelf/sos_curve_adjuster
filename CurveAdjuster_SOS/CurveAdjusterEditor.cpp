@@ -583,19 +583,20 @@ bool CurveAdjusterEditor::keyStateChanged(bool isKeyDown)
             if (shiftDown)
             {
                 auto& nextStateConnectors = undoManager.GetNextState();
-                if (nextStateConnectors.empty())
+                if (! nextStateConnectors.has_value())
                 {
                     return true;
                 }
-                ReplaceStateFromUndoManagerConnectors(nextStateConnectors);
+                ReplaceStateFromUndoManagerConnectors(nextStateConnectors.value());
                 return true;
             }
             auto& prevStateConnectors = undoManager.GetPreviousState();
-            if (prevStateConnectors.empty())
+            if (! prevStateConnectors.has_value())
             {
                 return true;
             }
-            ReplaceStateFromUndoManagerConnectors(prevStateConnectors);
+            ReplaceStateFromUndoManagerConnectors(prevStateConnectors.value());
+            return true;
         }
         
         if (juce::KeyPress::isKeyCurrentlyDown('a')) //select all

@@ -17,10 +17,9 @@ struct UndoManager
     explicit UndoManager(size_t numStates)
     : indexMax(numStates)
     {
-        states.reserve(numStates);
-        for (size_t i = 0; i < indexMax; ++i)
+        for (auto i = 0; i < numStates; ++i)
         {
-            states.emplace_back(T());
+            states.emplace_back(std::optional<T>());
         }
     }
     
@@ -34,23 +33,23 @@ struct UndoManager
         {
             firstFlag = false;
         }
-        states.at(index).swap(c);
+            states.at(index) = std::optional<T>(c);
     }
     
-    Connector::connectorsCollection& GetPreviousState()
+    std::optional<T>& GetPreviousState()
     {
         Decrement();
-        if (states.at(index).empty())
+        if (! states.at(index).has_value())
         {
             Increment();
         }
         return states.at(index);
     }
     
-    Connector::connectorsCollection& GetNextState()
+    std::optional<T>& GetNextState()
     {
         Increment();
-        if (states.at(index).empty())
+        if (! states.at(index).has_value())
         {
             Decrement();
         }
@@ -68,15 +67,16 @@ struct UndoManager
     
     void Decrement()
     {
-        index-= 1;
-        if (index < 0)
+        if (index == 0)
         {
             index = indexMax - 1;
+            return;
         }
+        index-= 1;
     }
     
     const size_t indexMax;
-    std::vector<T> states;
+    std::vector< std::optional<T> > states;
     size_t index{0};
     bool firstFlag{true};
 };
