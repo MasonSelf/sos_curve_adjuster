@@ -1234,25 +1234,30 @@ void CurveAdjusterEditor::HandleRightClickOptionsNoMultiSelect()
     juce::PopupMenu m;
     juce::PopupMenu flatLineSubmenu;
     flatLineSubmenu.addItem(1, "bottom");
-    flatLineSubmenu.addItem(2, "middle");
-    flatLineSubmenu.addItem(3, "top");
+    if (minIsAdjustable)
+    {
+        flatLineSubmenu.addItem(2, "middle");
+        flatLineSubmenu.addItem(3, "top");
+    }
     m.addSubMenu("flat line", flatLineSubmenu);
     juce::PopupMenu rampUpSubmenu;
     rampUpSubmenu.addItem(4, "linear");
     rampUpSubmenu.addItem(5, "exponential");
     rampUpSubmenu.addItem(6, "logarithmic");
-    rampUpSubmenu.addItem(7, "staircase");
+    //rampUpSubmenu.addItem(7, "staircase");
     rampUpSubmenu.addItem(8, "binary");
     m.addSubMenu("ramp up", rampUpSubmenu);
-    
-    juce::PopupMenu rampDownSubmenu;
-    rampDownSubmenu.addItem(9, "linear");
-    rampDownSubmenu.addItem(10, "exponential");
-    rampDownSubmenu.addItem(11, "logarithmic");
-    rampDownSubmenu.addItem(12, "staircase");
-    rampDownSubmenu.addItem(13, "binary");
-    m.addSubMenu("ramp down", rampDownSubmenu);
-    
+
+    if (minIsAdjustable)
+    {
+        juce::PopupMenu rampDownSubmenu;
+        rampDownSubmenu.addItem(9, "linear");
+        rampDownSubmenu.addItem(10, "exponential");
+        rampDownSubmenu.addItem(11, "logarithmic");
+        //rampDownSubmenu.addItem(12, "staircase");
+        rampDownSubmenu.addItem(13, "binary");
+        m.addSubMenu("ramp down", rampDownSubmenu);
+    }
     m.showMenuAsync(juce::PopupMenu::Options(),
                     [this] (int result)
     {
@@ -1288,32 +1293,32 @@ void CurveAdjusterEditor::HandleRightClickOptionsNoMultiSelect()
             ReplaceState({{{0.0f, height}, {0.0f, 0.0f}, {width, 0.0f}}});
             handleChanged.setValue(true);
         }
-        else if (result == 7) //ramp up staircase
-        {
-            //start with linear ramp up
-            ReplaceState({{{0.0f, height}, {width * 0.8f, height * 0.2f}, {width, 0.0f}}});
-            float xIncr = width / 8.0f - 1.0f;
-            float yIncr = height / 7.0f;
-            auto thisX = xIncr;
-            auto thisY = height;
-            HandleMouseDoubleClickWithPostion({thisX, thisY});
-            bool lastFlag {false};
-            while (!lastFlag)
-            {
-                thisY -= yIncr;
-                thisX += 1.0f;
-                HandleMouseDoubleClickWithPostion({thisX, thisY});
-                if (thisY == 0.0f)
-                {
-                    lastFlag = true;
-                }
-                else
-                {
-                    thisX += xIncr;
-                    HandleMouseDoubleClickWithPostion({thisX, thisY});
-                }
-            }
-        }
+//        else if (result == 7) //ramp up staircase
+//        {
+//            //start with linear ramp up
+//            ReplaceState({{{0.0f, height}, {width * 0.8f, height * 0.2f}, {width, 0.0f}}});
+//            float xIncr = width / 8.0f - 1.0f;
+//            float yIncr = height / 7.0f;
+//            auto thisX = xIncr;
+//            auto thisY = height;
+//            HandleMouseDoubleClickWithPostion({thisX, thisY});
+//            bool lastFlag {false};
+//            while (!lastFlag)
+//            {
+//                thisY -= yIncr;
+//                thisX += 1.0f;
+//                HandleMouseDoubleClickWithPostion({thisX, thisY});
+//                if (thisY == 0.0f)
+//                {
+//                    lastFlag = true;
+//                }
+//                else
+//                {
+//                    thisX += xIncr;
+//                    HandleMouseDoubleClickWithPostion({thisX, thisY});
+//                }
+//            }
+//        }
         else if (result == 8) //rampup binary
         {
             //start with linear ramp up
