@@ -45,7 +45,9 @@ public:
                            bool receivesModulation,
                            const juce::String& _displayName,
                            const juce::String& minOutputName,
-                           const juce::String& maxOutputName);
+                           const juce::String& maxOutputName,
+                           juce::Colour _textColor,
+                           float _textOpacity = 1.0f);
     void paint (juce::Graphics&) override;
     void resized() override;
 
@@ -60,6 +62,8 @@ public:
 private:
     const float width, height;
     juce::String displayName, minOutput, maxOutput;
+    juce::Colour textColor {juce::Colours::black};
+    float textOpacity;
     bool shouldDisplayNameAndOutputRange {false};
 };
 

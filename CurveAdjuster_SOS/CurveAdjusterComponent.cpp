@@ -50,12 +50,16 @@ CurveAdjusterComponent::CurveAdjusterComponent(int paramIndex,
                                                bool receivesModulation,
                                                const juce::String& _displayName,
                                                const juce::String& minOutputName,
-                                               const juce::String& maxOutputName)
+                                               const juce::String& maxOutputName,
+                                               juce::Colour _textColor,
+                                               float _textOpacity)
 : CurveAdjusterComponent(paramIndex, paramName,shouldDisplaySlider, minIsAdjustable, maxIsAdjustable, componentWidth,componentHeight,adjusterWidth,adjusterHeight, p, cP, receivesModulation)
 {
     displayName = _displayName;
     minOutput = minOutputName;
     maxOutput = maxOutputName;
+    textColor = _textColor;
+    textOpacity = _textOpacity;
     shouldDisplayNameAndOutputRange = true;
 }
 
@@ -63,8 +67,8 @@ void CurveAdjusterComponent::paint (juce::Graphics& g)
 {
     if (shouldDisplayNameAndOutputRange)
     {
-        g.setColour(juce::Colours::black);
-        g.setOpacity(0.8f);
+        g.setColour(textColor);
+        g.setOpacity(textOpacity);
         g.setFont(20.0f);
         g.drawFittedText(displayName, juce::Rectangle<int>({0, getHeight() - 20}, {static_cast<int>(curveAdjusterEditor.GetWidth()), getHeight()} ), juce::Justification::centred, 1);
         g.setFont(10.0f);

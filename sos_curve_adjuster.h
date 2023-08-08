@@ -4,10 +4,10 @@
 
 BEGIN_JUCE_MODULE_DECLARATION
 
-      ID:               CurveAdjusterSynthsOfSelf
+      ID:               sos_curve_adjuster
       vendor:           Mason Self
       version:          0.0.1
-      name:             curve_adjuster_sos
+      name:             sos_curve_adjuster
       description:      CurveAdjusterSlidersSynthsOfSelf
       license:          GPL/Commercial
       dependencies:     juce_audio_utils, juce_gui_basics, juce_graphics, juce_audio_processors, sliders_sos
