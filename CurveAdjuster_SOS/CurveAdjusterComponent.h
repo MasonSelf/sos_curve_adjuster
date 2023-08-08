@@ -46,7 +46,7 @@ public:
                            const juce::String& _displayName,
                            const juce::String& minOutputName,
                            const juce::String& maxOutputName,
-                           juce::Colour _textColor,
+                           juce::Colour _textColor = juce::Colours::black,
                            float _textOpacity = 1.0f);
     void paint (juce::Graphics&) override;
     void resized() override;
