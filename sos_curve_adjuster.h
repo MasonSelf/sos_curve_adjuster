@@ -10,7 +10,7 @@ BEGIN_JUCE_MODULE_DECLARATION
       name:             sos_curve_adjuster
       description:      CurveAdjusterSlidersSynthsOfSelf
       license:          GPL/Commercial
-      dependencies:     juce_audio_utils, juce_gui_basics, juce_graphics, juce_audio_processors, sliders_sos
+      dependencies:     juce_audio_utils, juce_gui_basics, juce_graphics, juce_audio_processors, sliders_sos, sos_maths
 
      END_JUCE_MODULE_DECLARATION
 

@@ -10,6 +10,8 @@
 #pragma once
 #include "Connector.h"
 
+//TODO: replace <= / >= :( 
+
 Connector::Connector(pointType _start, pointType _end)
 : start(_start), end(_end)
 {
@@ -154,6 +156,6 @@ float Connector::GetY_AlongPath(float in_X)
     }
     jassertfalse; //should have found something!
     
-    //safety
+    //safety lame scenario
     return 0.0f;
 }

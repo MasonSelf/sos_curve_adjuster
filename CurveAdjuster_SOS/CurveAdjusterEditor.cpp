@@ -713,10 +713,6 @@ std::vector<pointType> CurveAdjusterEditor::GetControlPointCoordinates()
 
 bool CurveAdjusterEditor::AddHandle(pointType p)
 {
-    
-    //for now we're assuming the min and max point are 1D.
-    //TO DO: make variations of CurveAdjusterEditor with 0D handles
-    
     if (connectors.size() >= curveAdjusterProcessor.data.maxConnectors.load())
     {
         return false; //can't add any more points, so return false
@@ -928,7 +924,7 @@ juce::Point<float> CurveAdjusterEditor::RestrictPosition2D(pointType p, const ha
             auto testPoint = (*localIterator)->GetPos();
             
             //if x's are within handle size apart
-            if (std::abs(thisX - testPoint.x) <= (handleSize))
+            if (IsLessThanOrEqual<float>(std::abs(thisX - testPoint.x), handleSize))
             {
                 if (testPoint.y < thisY)
                 {
@@ -966,7 +962,7 @@ juce::Point<float> CurveAdjusterEditor::RestrictPosition2D(pointType p, const ha
          {
              lowerXLimit = (*previousIt)->GetPos().x;
              //limit further if y's are within handle size
-             if (std::abs((*previousIt)->GetPos().y - (*it)->GetPos().y) <= (handleSize * 1.5f) )
+             if (IsLessThanOrEqual(std::abs((*previousIt)->GetPos().y - (*it)->GetPos().y), handleSize * 1.5f))
              {
                  lowerXLimit += handleSize;
              }
@@ -978,7 +974,7 @@ juce::Point<float> CurveAdjusterEditor::RestrictPosition2D(pointType p, const ha
          {
              upperXLimit = (*nextIt)->GetPos().x;
              //limit further if y's are within handle size apart
-             if (std::abs((*nextIt)->GetPos().y - (*it)->GetPos().y) <= (handleSize * 2.0f))
+             if (IsLessThanOrEqual(std::abs((*nextIt)->GetPos().y - (*it)->GetPos().y), handleSize * 2.0f))
              {
                  upperXLimit-= handleSize;
              }
@@ -1019,15 +1015,15 @@ pointType CurveAdjusterEditor::RestrictPosition1D(pointType p, const handleColle
             auto testPoint = (*localIterator)->GetPos();
             
             //if x's are within handle size apart
-            if (std::abs(thisX - testPoint.x) <= handleSize)
+            if (IsLessThanOrEqual(std::abs(thisX - testPoint.x), handleSize))
             {
                 //if thisY is within handle size below
-                if (testPoint.y <= thisY && thisY - testPoint.y <= handleSize)
+                if (IsLessThanOrEqual(testPoint.y, thisY) && IsLessThanOrEqual(thisY - testPoint.y, handleSize))
                 {
                     lowerYLimit = testPoint.y + handleSize;
                 }
                 //if thisY is within handle size above
-                else if (testPoint.y >= thisY && testPoint.y - thisY <= handleSize)
+                else if (IsGreaterThanOrEqual(testPoint.y, thisY) && IsLessThanOrEqual(testPoint.y - thisY, handleSize))
                 {
                     upperYLimit = testPoint.y - handleSize;
                 }
@@ -1054,7 +1050,7 @@ void CurveAdjusterEditor::DetermineMouseOverConnectors(const juce::Point<float> 
     
     for (auto& c : connectors)
     {
-        if (c.start.x <= p.x && c.end.x >= p.x)
+        if (IsLessThanOrEqual(c.start.x, p.x) && IsGreaterThanOrEqual(c.end.x, p.x))
         {
             juce::Point<float> nearestPoint;
             auto distanceAlongPathToNearestPoint = c.path.getNearestPoint(p, nearestPoint);
@@ -1066,7 +1062,7 @@ void CurveAdjusterEditor::DetermineMouseOverConnectors(const juce::Point<float> 
             else
             {
                 juce::Line<float> tempLine {p, nearestPoint};
-                if (tempLine.getLength() <= 5.0f)
+                if (IsLessThanOrEqual(tempLine.getLength(), 5.0f))
                 {
                     c.mouseOver = true;
                     c.repaint();
@@ -1112,16 +1108,22 @@ pointType CurveAdjusterEditor::GetCoordinateFromPercentage(pointType p)
 
  float CurveAdjusterEditor::GetY_AtX(float in_X)
 {
-    jassert(in_X >= 0.0f); //negative input is bad input!
-  
     for (auto& c : connectors)
     {
-        if (c.start.x <= in_X && c.end.x >= in_X)
+        if (juce::approximatelyEqual(c.start.x, in_X))
+        {
+            return c.start.y;
+        }
+        else if (juce::approximatelyEqual(c.end.x, in_X))
+        {
+            return c.end.y;
+        }
+        if (c.start.x < in_X && c.end.x > in_X)
         {
             return c.GetY_AlongPath(in_X);
         }
     }
-    //backup up plan, return 0
+    //safety default, return 0.0f
     return 0.0f;
 }
 
@@ -1560,7 +1562,7 @@ void CurveAdjusterEditor::RemoveHandlesWithinXRangeOfMultiSelect()
     //remove any handles within x range not just within selection!
     for (auto& h : handles)
     {
-        if (h->GetPos().x >= multiSelectManager.xMin && h->GetPos().x <= multiSelectManager.xMax)
+        if (IsGreaterThanOrEqual(h->GetPos().x, multiSelectManager.xMin) && IsLessThanOrEqual(h->GetPos().x, multiSelectManager.xMax))
         {
             h->SetSelectedForMultiSelect(true);
         }
@@ -1571,7 +1573,7 @@ void CurveAdjusterEditor::RemoveHandlesWithinXRangeOfMultiSelect()
 void CurveAdjusterEditor::HandleSelectionReplacement(std::pair<pointType, pointType> p)
 {
     bool shouldKeepSelectionActive = true;
-    if (p.first.x >= halfHandleSize)
+    if (IsGreaterThanOrEqual(p.first.x, halfHandleSize))
     {
         HandleMouseDoubleClickWithPostion(p.first);
     }
@@ -1585,7 +1587,7 @@ void CurveAdjusterEditor::HandleSelectionReplacement(std::pair<pointType, pointT
         HandleMouseDragWithPosition(p.first);
         handles.front()->ForceMouseWithinFalse();
     }
-    if (p.second.x <= (width - halfHandleSize))
+    if (IsLessThanOrEqual(p.second.x, width - halfHandleSize))
     {
         HandleMouseDoubleClickWithPostion(p.second);
     }

@@ -20,6 +20,7 @@
 #include "Connector.h"
 #include "MultiSelectionManager.h"
 #include "SOSUndoManager.h"
+#include <sos_maths/sos_maths.h>
 
 //testing purposes only
 #include "DebugHelperFunctions.h"
