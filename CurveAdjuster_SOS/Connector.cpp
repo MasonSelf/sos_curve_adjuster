@@ -10,7 +10,6 @@
 #pragma once
 #include "Connector.h"
 
-//TODO: replace <= / >= :( 
 
 Connector::Connector(pointType _start, pointType _end)
 : start(_start), end(_end)
@@ -147,7 +146,15 @@ float Connector::GetY_AlongPath(float in_X)
 
     while (flatPath.next())
     {
-        if (in_X >= flatPath.x1 && in_X <= flatPath.x2)
+        if (juce::approximatelyEqual(in_X, flatPath.x1))
+        {
+            return flatPath.y1;
+        }
+        else if (juce::approximatelyEqual(in_X, flatPath.x2))
+        {
+            return flatPath.y2;
+        }
+        else if (in_X > flatPath.x1 && in_X < flatPath.x2)
         {
             juce::Line<float> pathLine {flatPath.x1, flatPath.y1, flatPath.x2, flatPath.y2};
             juce::Line<float> verticalLineAtX {in_X, 0.0f, in_X, 1.0f};
