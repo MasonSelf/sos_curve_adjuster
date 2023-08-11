@@ -1246,7 +1246,7 @@ void CurveAdjusterEditor::HandleRightClickOptionsNoMultiSelect()
     rampUpSubmenu.addItem(4, "linear");
     rampUpSubmenu.addItem(5, "exponential");
     rampUpSubmenu.addItem(6, "logarithmic");
-    //rampUpSubmenu.addItem(7, "staircase");
+    rampUpSubmenu.addItem(7, "staircase");
     rampUpSubmenu.addItem(8, "binary");
     m.addSubMenu("ramp up", rampUpSubmenu);
 
@@ -1256,7 +1256,7 @@ void CurveAdjusterEditor::HandleRightClickOptionsNoMultiSelect()
         rampDownSubmenu.addItem(9, "linear");
         rampDownSubmenu.addItem(10, "exponential");
         rampDownSubmenu.addItem(11, "logarithmic");
-        //rampDownSubmenu.addItem(12, "staircase");
+        rampDownSubmenu.addItem(12, "staircase");
         rampDownSubmenu.addItem(13, "binary");
         m.addSubMenu("ramp down", rampDownSubmenu);
     }
@@ -1295,32 +1295,32 @@ void CurveAdjusterEditor::HandleRightClickOptionsNoMultiSelect()
             ReplaceState({{{0.0f, height}, {0.0f, 0.0f}, {width, 0.0f}}});
             handleChanged.setValue(true);
         }
-//        else if (result == 7) //ramp up staircase
-//        {
-//            //start with linear ramp up
-//            ReplaceState({{{0.0f, height}, {width * 0.8f, height * 0.2f}, {width, 0.0f}}});
-//            float xIncr = width / 8.0f - 1.0f;
-//            float yIncr = height / 7.0f;
-//            auto thisX = xIncr;
-//            auto thisY = height;
-//            HandleMouseDoubleClickWithPostion({thisX, thisY});
-//            bool lastFlag {false};
-//            while (!lastFlag)
-//            {
-//                thisY -= yIncr;
-//                thisX += 1.0f;
-//                HandleMouseDoubleClickWithPostion({thisX, thisY});
-//                if (thisY == 0.0f)
-//                {
-//                    lastFlag = true;
-//                }
-//                else
-//                {
-//                    thisX += xIncr;
-//                    HandleMouseDoubleClickWithPostion({thisX, thisY});
-//                }
-//            }
-//        }
+        else if (result == 7) //ramp up staircase
+        {
+            //start with linear ramp up
+            ReplaceState({{{0.0f, height}, {width * 0.8f, height * 0.2f}, {width, 0.0f}}});
+            float xIncr = width / 8.0f - 1.0f;
+            float yIncr = height / 7.0f;
+            auto thisX = xIncr;
+            auto thisY = height;
+            HandleMouseDoubleClickWithPostion({thisX, thisY});
+            bool lastFlag {false};
+            while (!lastFlag)
+            {
+                thisY -= yIncr;
+                thisX += 1.0f;
+                HandleMouseDoubleClickWithPostion({thisX, thisY});
+                if (IsLessThanOrEqual(thisY, 0.0f))
+                {
+                    lastFlag = true;
+                }
+                else
+                {
+                    thisX += xIncr;
+                    HandleMouseDoubleClickWithPostion({thisX, thisY});
+                }
+            }
+        }
         else if (result == 8) //rampup binary
         {
             //start with linear ramp up
@@ -1358,7 +1358,7 @@ void CurveAdjusterEditor::HandleRightClickOptionsNoMultiSelect()
                 thisY += yIncr;
                 thisX += 1.0f;
                 HandleMouseDoubleClickWithPostion({thisX, thisY});
-                if (juce::approximatelyEqual(thisY, height))
+                if (IsGreaterThanOrEqual(thisY, height))
                 {
                     lastFlag = true;
                 }
