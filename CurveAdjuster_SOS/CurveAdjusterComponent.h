@@ -11,7 +11,7 @@
 #pragma once
 #include "CurveAdjusterEditor.h"
 //#include "../PluginProcessor.h"
-#include <sliders_sos/sliders_sos.h>
+#include <sos_sliders/sos_sliders.h>
 
 class CurveAdjusterComponent : public juce::Component, public juce::Slider::Listener
 {
