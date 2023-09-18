@@ -4,7 +4,7 @@ This is a module that adheres to the [JUCE Module Format](https://github.com/juc
 
 A Curve Adjuster allows nuanced remapping of a ranged value. Used with parameters that are interacted with in real time, a Curve Adjuster can dramatically change the *feeling* of the parameter. 
 
-<img width="641" alt="curve adjuster screenshot" src="https://github.com/MasonSelf/sos_curve_adjuster/assets/55724853/6d758ece-9aeb-4edf-bd21-a838ffbc5829">
+<img width="641" alt="curve adjuster screenshot" src="https://github.com/MasonSelf/sos_curve_adjuster/assets/55724853/f2cbdcdc-cae9-4563-9442-1a582e99b0d9">
 
 
 ### Features
@@ -12,7 +12,7 @@ A Curve Adjuster allows nuanced remapping of a ranged value. Used with parameter
 * Up to 31 [Handles](https://github.com/MasonSelf/sos_curve_adjuster/blob/main/CurveAdjuster_SOS/IAdjusterHandle.h).
 * Assymetrically adjustable [curves](https://github.com/MasonSelf/sos_curve_adjuster/blob/main/CurveAdjuster_SOS/Connector.h) between all handles.
   
-![curve adjuster](https://github.com/MasonSelf/sos_curve_adjuster/assets/55724853/3a533be2-2cc8-4cca-ab24-3989b542657e)
+![curve adjuster](https://github.com/MasonSelf/sos_curve_adjuster/assets/55724853/576cd1d3-fce7-4e29-9a6b-462f67c1c1f6)
 
 
 ### End User Documentation
