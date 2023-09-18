@@ -1,6 +1,7 @@
 # sos_curve_adjuster
 
 This is a module that adheres to the [JUCE Module Format](https://github.com/juce-framework/JUCE/blob/master/docs/JUCE%20Module%20Format.md). 
+
 A Curve Adjuster allows nuanced remapping of a ranged value. Used with parameters that are interacted with in real time, a Curve Adjuster can dramatically change the *feeling* of the parameter. 
 
 <img width="641" alt="curve adjuster screenshot" src="https://github.com/MasonSelf/sos_curve_adjuster/assets/55724853/6d758ece-9aeb-4edf-bd21-a838ffbc5829">
