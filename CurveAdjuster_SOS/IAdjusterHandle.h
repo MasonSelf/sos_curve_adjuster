@@ -15,10 +15,10 @@
 namespace CurveAdjuster
 {
 
-    //the individual handle repaints and manages old / new position values
-    //including a base level position restriction (i.e. the whole parent component, 
-    //only vertical motion, etc as determined by the derived class)
-    //the OWNING COMPONENT handles mouse events as well as further position restriction
+    /*
+    A Handle represents a connection point of segment of the path of a Curve Adjuster. 
+    Depending on the implementation, it may be adjustable and serve as one means to adjust the path. 
+    */
     class IAdjustmentHandle : public MouseIgnoringComponent
     {
     public:
